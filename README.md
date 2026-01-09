@@ -1,68 +1,175 @@
-# Safe Gmail Cleaner & Insights 
+# 🧹 Safe Gmail Cleaner & Insights
+
+<div align="center">
 
 A high-performance, security-focused Python tool designed to automate the cleanup of old, unread emails while providing deep insights into your inbox storage and subscription habits.
 
-## Key Features
-- **Storage Savings Calculator**: See exactly how many **MB/GB** of space you'll reclaim before deleting anything.
-- **Automatic categorization**: Uses Gmail's internal AI to identify if your junk mail is `Promotions`, `Social`, or `Updates`.
-- **Unsubscribe Assistant**: Extracts hidden `List-Unsubscribe` links so you can get off mailing lists permanently while cleaning up.
-- **Safety-First Logic**: Automatically protects emails that are **Starred**, marked as **Important**, or contain specific labels (e.g., `Tax`, `Work`, `Banking`).
-- **Dry Run Mode**: Scans and summarizes candidates for review. Action only happens after your explicit `PROCEED` confirmation.
-- **Real-Time Progress**: Live counter during the cleanup process.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Gmail API](https://img.shields.io/badge/Gmail-API-red.svg)](https://developers.google.com/gmail/api)
 
-## Prerequisites
-- Python 3.10+
-- A Google Cloud Project with the **Gmail API** enabled.
-- OAuth 2.0 Credentials (`credentials.json`).
+</div>
 
-## Setup
+---
 
-### 1. Google Cloud Configuration
-1.  **Create a Project**: Go to the [Google Cloud Console](https://console.cloud.google.com/).
-2.  **Enable Gmail API**: Enable it in the API Library.
-3.  **OAuth Consent Screen**: Set to **External** and add your email as a **Test User**.
-4.  **Create Credentials**: Create an **OAuth client ID** (Desktop app) and download it as `credentials.json` in the project root.
+## ✨ Key Features
 
-### 2. Local Installation
-1.  **Clone & Navigate**:
-    ```bash
-    git clone https://github.com/ChrisAnghel1/Gmail-Cleanup-Automation.git
-    cd gmail_cleanup_automation
-    ```
-2.  **Virtual Environment**:
-    ```bash
-    python -m venv .venv
-    # Windows:
-    .venv\Scripts\activate
-    # macOS/Linux:
-    source .venv/bin/activate
-    ```
-3.  **Install Dependencies**:
-    ```bash
-    pip install -r requirements.txt
-    ```
+- 💾 **Storage Savings Calculator** - See exactly how many MB/GB of space you'll reclaim before deleting anything
+- 🏷️ **Automatic Categorization** - Uses Gmail's internal AI to identify if your junk mail is `Promotions`, `Social`, or `Updates`
+- ✉️ **Unsubscribe Assistant** - Extracts hidden `List-Unsubscribe` links so you can get off mailing lists permanently
+- 🛡️ **Safety-First Logic** - Automatically protects emails that are **Starred**, marked as **Important**, or contain specific labels (e.g., `Tax`, `Work`, `Banking`)
+- 🔍 **Dry Run Mode** - Scans and summarizes candidates for review. Action only happens after your explicit `PROCEED` confirmation
+- ⚡ **Real-Time Progress** - Live counter during the cleanup process
 
-## Usage
-Run the script to start the dry run analysis:
+---
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following: 
+
+- **Python 3.10+** installed on your system
+- A **Google Cloud Project** with the Gmail API enabled
+- **OAuth 2.0 Credentials** (`credentials.json`)
+
+---
+
+## 🚀 Setup
+
+### 1️⃣ Google Cloud Configuration
+
+1. **Create a Project**
+   - Navigate to the [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project or select an existing one
+
+2. **Enable Gmail API**
+   - Go to the API Library
+   - Search for "Gmail API" and enable it
+
+3. **Configure OAuth Consent Screen**
+   - Set the user type to **External**
+   - Add your email address as a **Test User**
+
+4. **Create OAuth Credentials**
+   - Go to **Credentials** → **Create Credentials** → **OAuth client ID**
+   - Select **Desktop app** as the application type
+   - Download the credentials file and save it as `credentials.json` in the project root
+
+### 2️⃣ Local Installation
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/ChrisAnghel1/Gmail-Cleanup-Automation.git
+   cd Gmail-Cleanup-Automation
+   ```
+
+2. **Set Up Virtual Environment**
+   ```bash
+   python -m venv .venv
+   ```
+   
+   **Activate the environment:**
+   - Windows:
+     ```bash
+     .venv\Scripts\activate
+     ```
+   - macOS/Linux:
+     ```bash
+     source .venv/bin/activate
+     ```
+
+3. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+---
+
+## 💻 Usage
+
+### Running the Tool
+
+Start the dry run analysis with: 
+
 ```bash
 python gmail_cleanup.py
 ```
-*(Note: On Windows, use `python` after activating your virtual environment to ensure it uses the correct interpreter.)*
 
-### The Insights Flow:
-1.  **Authentication**: Secure Google Login via your browser.
-2.  **Inbox Analysis**: Scans your unread emails older than 1 year.
-3.  **Review Dashboard**:
-    - **Total Storage**: Shows potential space reclaimed.
-    - **Category Breakdown**: See the percentage of Promotions vs Social.
-    - **Sample List**: View subjects and direct **Unsubscribe links**.
-4.  **Cleanup**: Type `PROCEED` to move the emails to the Trash.
+> **Note:** On Windows, use `python` after activating your virtual environment to ensure it uses the correct interpreter.
 
-## Customization
-Modify `gmail_cleanup.py` to tune:
-- **`PROTECTED_LABELS`**: List labels that should never be touched.
-- **`SEARCH_QUERY`**: Change the filter (e.g., `older_than:2y`).
+### 🔄 The Workflow
 
-## Security Note
-- **`credentials.json`** and **`token.json`** are blocked by `.gitignore`. 
-- **NEVER** commit these to a public repository as they grant access to your email.
+1. **🔐 Authentication**
+   - Secure Google Login via your browser on first run
+   - Credentials are saved locally for future use
+
+2. **📊 Inbox Analysis**
+   - Scans your unread emails older than 1 year
+   - Identifies safe candidates for deletion
+
+3. **📈 Review Dashboard**
+   - **Total Storage**: Shows potential space to be reclaimed
+   - **Category Breakdown**: View percentage distribution (Promotions, Social, Updates)
+   - **Sample List**: Preview email subjects with direct **Unsubscribe links**
+
+4. **🗑️ Cleanup**
+   - Review the summary carefully
+   - Type `PROCEED` to move the emails to Trash
+   - Cancel anytime without making changes
+
+---
+
+## ⚙️ Customization
+
+You can customize the behavior by modifying `gmail_cleanup.py`:
+
+| Configuration | Description | Default |
+|--------------|-------------|---------|
+| `PROTECTED_LABELS` | Labels that should never be touched | `['Tax', 'Work', 'Banking']` |
+| `SEARCH_QUERY` | Email filter criteria | `older_than:1y` |
+
+### Example Modifications
+
+```python
+# Change the age threshold to 2 years
+SEARCH_QUERY = "is:unread older_than:2y"
+
+# Add more protected labels
+PROTECTED_LABELS = ['Tax', 'Work', 'Banking', 'Legal', 'Important']
+```
+
+---
+
+## 🔒 Security & Privacy
+
+- ✅ **`credentials.json`** and **`token.json`** are automatically excluded via `.gitignore`
+- ✅ All authentication happens locally on your machine
+- ✅ No third-party servers process your data
+- ⚠️ **NEVER** commit credential files to public repositories as they grant access to your email
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!  Feel free to check the [issues page](https://github.com/ChrisAnghel1/Gmail-Cleanup-Automation/issues).
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/ChrisAnghel1/Gmail-Cleanup-Automation/blob/main/LICENSE) file for details.
+
+---
+
+## 📧 Contact
+
+**Chris Anghel** - [@ChrisAnghel1](https://github.com/ChrisAnghel1)
+
+Project Link: [https://github.com/ChrisAnghel1/Gmail-Cleanup-Automation](https://github.com/ChrisAnghel1/Gmail-Cleanup-Automation)
+
+---
+
+<div align="center">
+
+**⭐ If you find this tool helpful, please consider giving it a star! **
+
+</div>

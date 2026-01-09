@@ -1,0 +1,15 @@
+# Credentials and Tokens (NEVER SHARE THESE)
+credentials.json
+token.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# IDEs
+.vscode/
+.idea/
+.adk/

@@ -26,8 +26,8 @@ A high-performance, security-focused Python tool designed to automate the cleanu
 ### 2. Local Installation
 1.  **Clone & Navigate**:
     ```bash
-    git clone https://github.com/ChrisAnghel1/gmail-cleanup-automation.git
-    cd gmail-cleanup-automation
+    git clone https://github.com/ChrisAnghel1/Gmail-Cleanup-Automation.git
+    cd gmail_cleanup_automation
     ```
 2.  **Virtual Environment**:
     ```bash

@@ -2,11 +2,12 @@
 
 <div align="center">
 
-A high-performance, security-focused Python tool designed to automate the cleanup of old, unread emails while providing deep insights into your inbox storage and subscription habits.
+A high-performance, security-focused Python tool designed to automate the cleanup of old, unread emails while providing deep insights into your inbox storage and subscription habits. 
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Gmail API](https://img.shields.io/badge/Gmail-API-red.svg)](https://developers.google.com/gmail/api)
+[![Pandas](https://img.shields.io/badge/Pandas-Powered-150458.svg?logo=pandas)](https://pandas.pydata.org/)
 
 </div>
 
@@ -15,6 +16,7 @@ A high-performance, security-focused Python tool designed to automate the cleanu
 ## ✨ Key Features
 
 - 💾 **Storage Savings Calculator** - See exactly how many MB/GB of space you'll reclaim before deleting anything
+- 📊 **Pandas-Powered Analysis** - Advanced data processing and insights using Pandas for efficient email categorization and reporting
 - 🏷️ **Automatic Categorization** - Uses Gmail's internal AI to identify if your junk mail is `Promotions`, `Social`, or `Updates`
 - ✉️ **Unsubscribe Assistant** - Extracts hidden `List-Unsubscribe` links so you can get off mailing lists permanently
 - 🛡️ **Safety-First Logic** - Automatically protects emails that are **Starred**, marked as **Important**, or contain specific labels (e.g., `Tax`, `Work`, `Banking`)
@@ -72,7 +74,7 @@ Before you begin, ensure you have the following:
      ```bash
      .venv\Scripts\activate
      ```
-   - macOS/Linux:
+   - macOS/Linux: 
      ```bash
      source .venv/bin/activate
      ```
@@ -109,7 +111,7 @@ python gmail_cleanup.py
 3. **📈 Review Dashboard**
    - **Total Storage**: Shows potential space to be reclaimed
    - **Category Breakdown**: View percentage distribution (Promotions, Social, Updates)
-   - **Sample List**: Preview email subjects with direct **Unsubscribe links**
+   - **Sample List**:  Preview email subjects with direct **Unsubscribe links**
 
 4. **🗑️ Cleanup**
    - Review the summary carefully

@@ -1,8 +1,7 @@
 import os.path
-import base64
-import json
-import time
-from datetime import datetime
+import math
+import re
+import pandas as pd
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -52,13 +51,11 @@ def get_emails(service, query):
     messages = results.get('messages', [])
     return messages
 
-
 def format_size(size_bytes):
     """Format bytes into a human-readable string."""
     if size_bytes == 0:
         return "0B"
     size_name = ("B", "KB", "MB", "GB")
-    import math
     i = int(math.floor(math.log(size_bytes, 1024)))
     p = math.pow(1024, i)
     s = round(size_bytes / p, 2)
@@ -73,7 +70,7 @@ def get_full_analysis_batch(service, messages):
             size = response.get('sizeEstimate', 0)
             analysis['total_size'] += size
             
-            # Still keep track of samples for the top 20
+            # Extract metadata from response
             headers = response.get('payload', {}).get('headers', [])
             labels = response.get('labelIds', [])
             
@@ -127,48 +124,41 @@ def main():
         print(f"Found {len(messages)} candidates.")
         print("\nAnalyzing candidates and fetching sample details...")
         
-        # New optimized analysis fetch (includes storage)
+        # Fetch metadata for all candidates using batch requests
         analysis = get_full_analysis_batch(service, messages)
         total_size_str = format_size(analysis['total_size'])
         
         print(f"\nPotential Space Reclaimed: {total_size_str}")
         
         print("\nTop 20 Samples:")
-        # Sort samples by date to keep display consistent
-        sorted_samples = sorted(analysis['samples'], key=lambda x: x.get('date', ''), reverse=True)
-        for details in sorted_samples[:20]:
-            sender = details.get('from', 'Unknown')
-            subject = details.get('subject', 'No Subject')
-            print(f"- {details.get('date')}: {sender} | Subject: {subject}")
+        # Convert to DataFrame for analysis
+        df = pd.DataFrame(analysis['samples'])
+        
+        # Sort by date and display top 20
+        df_sorted = df.sort_values(by='date', ascending=False, na_position='last')
+        for _, row in df_sorted.head(20).iterrows():
+            sender = row.get('from', 'Unknown')
+            subject = row.get('subject', 'No Subject')
+            print(f"- {row.get('date')}: {sender} | Subject: {subject}")
             
             # Show unsubscribe link if available
-            unsub = details.get('unsubscribe')
-            if unsub:
-                # Often contains <mailto:...> or <http://...>, let's clean it up slightly
-                import re
-                links = re.findall(r'<(https?://[^>]+)>', unsub)
+            unsub = row.get('unsubscribe')
+            if pd.notna(unsub):
+                links = re.findall(r'<(https?://[^>]+)>', str(unsub))
                 if links:
                     print(f"  [Unsubscribe: {links[0]}]")
         
-        print("\nAnalyzing sender and category distribution...")
-        senders = {}
-        categories = {}
-        for details in analysis['samples']:
-            sender = details.get('from', 'Unknown')
-            senders[sender] = senders.get(sender, 0) + 1
-            
-            cat = details.get('category', 'General')
-            categories[cat] = categories.get(cat, 0) + 1
-        
-        print("\nCategory Breakdown (from candidates):")
-        sorted_cats = sorted(categories.items(), key=lambda x: x[1], reverse=True)
-        for cat, count in sorted_cats:
-            percentage = (count / len(analysis['samples'])) * 100
-            print(f"- {cat}: {count} emails ({percentage:.1f}%)")
+        # Category breakdown using Pandas
+        print("\nCategory Breakdown:")
+        category_counts = df['category'].value_counts()
+        category_pct = df['category'].value_counts(normalize=True) * 100
+        for cat in category_counts.index:
+            print(f"- {cat}: {category_counts[cat]} emails ({category_pct[cat]:.1f}%)")
 
+        # Top senders using Pandas
         print("\nTop Senders (from samples):")
-        sorted_senders = sorted(senders.items(), key=lambda x: x[1], reverse=True)
-        for sender, count in sorted_senders[:10]:
+        sender_counts = df['from'].value_counts().head(10)
+        for sender, count in sender_counts.items():
             print(f"- {sender}: {count} emails")
 
         confirm = input("\nType PROCEED to move these emails to Trash, or anything else to cancel: ")
@@ -188,7 +178,6 @@ def main():
             print(f"Successfully moved {total_messages} emails to Trash.")
         else:
             print("Action cancelled.")
-
 
     except HttpError as error:
         print(f'An error occurred: {error}')

@@ -162,14 +162,6 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 ---
 
-## 📧 Contact
-
-**Chris Anghel** - [@ChrisAnghel1](https://github.com/ChrisAnghel1)
-
-Project Link: [https://github.com/ChrisAnghel1/Gmail-Cleanup-Automation](https://github.com/ChrisAnghel1/Gmail-Cleanup-Automation)
-
----
-
 <div align="center">
 
 **⭐ If you find this tool helpful, please consider giving it a star! **
